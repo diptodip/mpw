@@ -13,21 +13,23 @@ int main(int argc, char** argv) {
     string strin;
     getline(in, strin);
     const int num_vertices = stoi(strin);
+    getline(in, strin);
+    const int source_index = stoi(strin);
     int V[num_vertices];
     for (int i = 0; i < num_vertices; i++) {
         getline(in, strin);
         V[i] = stoi(strin);
     }
     int E[num_vertices][num_vertices];
-    for (int i = 0; i < pm_size; i++) {
-        for (int j = 0; j < pm_size; j++) {
+    for (int i = 0; i < num_vertices; i++) {
+        for (int j = 0; j < num_vertices; j++) {
             in >> strin;
             E[i][j] = stoi(strin);
         }
     }
     int H[num_vertices][num_vertices];
-    for (int i = 0; i < vm_size; i++) {
-        for (int j = 0; j < vm_size; j++) {
+    for (int i = 0; i < num_vertices; i++) {
+        for (int j = 0; j < num_vertices; j++) {
             in >> strin;
             H[i][j] = stoi(strin);
         }
@@ -42,9 +44,9 @@ int main(int argc, char** argv) {
     string coverage_constraint = "";
     string obj = "";
 
-    cout << "[info] writing objective and generating variable matching constraints and variable bounds" << endl;
+    cout << "[info] writing objective and generating constraints and variable bounds" << endl;
 
-    for(int i = 0; u < num_vertices; u++) {
+    for(int i = 0; i < num_vertices; i++) {
         string varname = "a" + to_string(i);
         assignments[i] = varname;
         bounds += "0 <= " + varname + " <= 1\n";
@@ -53,27 +55,40 @@ int main(int argc, char** argv) {
     int objcounter = 0;
     int counter = 0;
 
-    cout << "[info] entering quadruple nested loop" << endl;
-
     for (int i = 0; i < num_vertices; i++) {
         string var_i = assignments[i];
         for (int j = 0; j < num_vertices; j++) {
             string var_j = assignments[j];
-            if (H[j][i] >= 0) {
-                coverage_constraint += "c" + to_string(counter) + ": " + H[j][i] + var_j + " >= 1\n";
-                counter++;
-            }
             if (H[i][j] >= 0) {
                 if (objcounter > 0) {
-                    obj += " + " var_i + " " + H[i][j];
+                    obj += " + " + to_string(H[i][j]) + " " + var_i;
                 } else {
-                    obj += var_i + " " H[i][j];
+                    obj += to_string(H[i][j]) + " " + var_i;
                 }
                 objcounter++;
             }
         }
     }
-    obj += "\n"
+    obj += "\n";
+
+    for (int j = 0; j < num_vertices; j++) {
+        string constraint = "c" + to_string(counter) + ": ";
+        int term_count = 0;
+        for (int i = 0; i < num_vertices; i++) {
+            if (H[i][j] > 0) {
+                if (term_count > 0) {
+                    constraint += " + " + to_string(H[i][j]) + " " + assignments[i];
+                } else {
+                    constraint += to_string(H[i][j]) + " " + assignments[i];
+                }
+                term_count++;
+            }
+        }
+        constraint += " >= 1\n";
+        coverage_constraint += constraint;
+        counter++;
+    }
+    coverage_constraint += "c" + to_string(counter) + ": " + assignments[source_index] + " = 1\n";
 
     cout << "[out] printing .lp file" << endl;
 

@@ -1,8 +1,5 @@
 from graphs import *
 
-def mku_generate(size):
-    while f
-
 def minimum_energy_single_path(G, source_index, sink_index):
     s = G.V[source_index]
     t = G.V[sink_index]

@@ -41,10 +41,8 @@ class Graph:
         self.H = np.zeros((len(self.V), len(self.V)), dtype=np.int16)
         for i,j in itertools.product(range(len(self.V)), repeat=2):
             self.H[i, j] = self.E[i, j]
-            if self.V[i].power < self.H[i, j]:
-                self.H[i, j] = -1
-            if self.H[i, j] is not -1:
-                self.arcs.add(Edge(self.V[i], self.V[j], self.H[i, j]))
+            if self.E[i, j] is not -1 and i is not j:
+                self.arcs.add(Edge(self.V[i], self.V[j], self.E[i, j]))
 
 def random_digraph(num_vertices):
     vertices = []
@@ -60,7 +58,7 @@ def random_digraph(num_vertices):
                 v.neighbors[n] = cost
                 edges[v_c, n_c] = cost
             elif n is not v:
-                edges[v_c, n_c] = cost
+                edges[v_c, n_c] = -1
             else:
                 edges[v_c, n_c] = 0
             n_c += 1
@@ -69,19 +67,19 @@ def random_digraph(num_vertices):
 
 def binary_digraph(num_vertices):
     vertices = []
-    edges = np.zeros((num_vertices, num_vertices))
+    edges = np.zeros((num_vertices, num_vertices), dtype=np.int16)
     for i in range(num_vertices):
-        vertices.append(Vertex(i, rng.randint(0, 1), {}))
+        vertices.append(Vertex(i, 1, {}))
     v_c = 0
     for v in vertices:
         n_c = 0
         for n in vertices:
-            cost = rng.randint(0, 1)
-            if n is not v and v.power >= cost:
+            cost = 1
+            if n is not v and rng.randint(0, 1) < cost:
                 v.neighbors[n] = cost
                 edges[v_c, n_c] = cost
             elif n is not v:
-                edges[v_c, n_c] = cost
+                edges[v_c, n_c] = -1
             else:
                 edges[v_c, n_c] = 0
             n_c += 1
@@ -93,7 +91,7 @@ def bfs(G, source_index=0):
     frontier = deque()
     visited = set()
     frontier.append(s)
-    while frontier not empty:
+    while len(frontier) > 0:
         current = frontier.popleft()
         visited.add(current)
         for neighbor in current.neighbors.keys():
