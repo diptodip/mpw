@@ -1,6 +1,7 @@
 import numpy as np
 import random as rng
 import itertools
+from collections import deque
 
 MIN_COST = 10
 MAX_COST = 100
@@ -19,15 +20,31 @@ class Vertex:
     def __repr__(self):
         return "V{}".format(self.name)
 
+class Edge:
+    def __init__(self, start, end, weight):
+        self.start = start
+        self.end = end
+        self.weight = weight
+        self.label = (start, end)
+
+    def __str__(self):
+        return "{0}-{1}".format(self.start, self.end)
+
+    def __repr__(self):
+        return "{0}-{1}".format(self.start, self.end)
+
 class Graph:
     def __init__(self, V, E):
         self.V = V
         self.E = E
+        self.arcs = set()
         self.H = np.zeros((len(self.V), len(self.V)), dtype=np.int16)
         for i,j in itertools.product(range(len(self.V)), repeat=2):
             self.H[i, j] = self.E[i, j]
             if self.V[i].power < self.H[i, j]:
                 self.H[i, j] = -1
+            if self.H[i, j] is not -1:
+                self.arcs.add(Edge(self.V[i], self.V[j], self.H[i, j]))
 
 def random_digraph(num_vertices):
     vertices = []
@@ -70,6 +87,26 @@ def binary_digraph(num_vertices):
             n_c += 1
         v_c += 1
     return Graph(vertices, edges)
+
+def bfs(G, source_index=0):
+    s = G.V[source_index]
+    frontier = deque()
+    visited = set()
+    frontier.append(s)
+    while frontier not empty:
+        current = frontier.popleft()
+        visited.add(current)
+        for neighbor in current.neighbors.keys():
+            if neighbor not in visited:
+                frontier.append(neighbor)
+    return visited
+
+def connected(G, source_index=0):
+    reached = bfs(G, source_index)
+    if len(reached) < len(G.V):
+        return False
+    else:
+        return True
 
 def djikstra(G, source_index=0):
     s = G.V[source_index]

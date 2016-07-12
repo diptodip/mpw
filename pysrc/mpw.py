@@ -1,14 +1,24 @@
 from graphs import *
 
+def mku_generate(size):
+    while f
+
 def minimum_energy_single_path(G, source_index, sink_index):
     s = G.V[source_index]
     t = G.V[sink_index]
     paths, costs = djikstra(G, source_index)
     return paths[t]
 
-def minimum_energy_disjoint_paths(G, k):
+def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
     V = G.V
     E = G.E
+    H = G.H
+    arcs = G.arcs
+    s = G.V[source_index]
+    t = G.V[sink_index]
+    G = node_disjoint(G)
+    M = len(V) * max(H)
+    sorted_neighbors = sort_neighbors(s, G)
 
 def write_mku(G, source_index, sink_index, filename):
     with open(filename, 'w') as f:
