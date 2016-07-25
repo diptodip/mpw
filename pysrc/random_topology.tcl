@@ -15,78 +15,78 @@
 # Number of Nodes	: 32
 # Simulation Area	: 60 x 100 
 # Deployment Strategy	: Clif
-# Seed           	: 582428
+# Seed           	: 260807
 
-$node_(0) set X_ 15.234000 
-$node_(0) set Y_ 2.447000 
-$node_(1) set X_ 53.675000 
-$node_(1) set Y_ 28.525000 
-$node_(2) set X_ 40.101000 
-$node_(2) set Y_ 22.183000 
-$node_(3) set X_ 20.174000 
-$node_(3) set Y_ 32.194000 
-$node_(4) set X_ 10.251000 
-$node_(4) set Y_ 1.600000 
-$node_(5) set X_ 38.026000 
-$node_(5) set Y_ 28.943000 
-$node_(6) set X_ 22.102000 
-$node_(6) set Y_ 29.521000 
-$node_(7) set X_ 2.351000 
-$node_(7) set Y_ 9.525000 
-$node_(8) set X_ 42.600000 
-$node_(8) set Y_ 25.951000 
-$node_(9) set X_ 22.377000 
-$node_(9) set Y_ 26.848000 
-$node_(10) set X_ 3.098000 
-$node_(10) set Y_ 36.859000 
-$node_(11) set X_ 40.229000 
-$node_(11) set Y_ 55.517000 
-$node_(12) set X_ 23.596000 
-$node_(12) set Y_ 50.302000 
-$node_(13) set X_ 10.198000 
-$node_(13) set Y_ 66.728000 
-$node_(14) set X_ 38.154000 
-$node_(14) set Y_ 66.078000 
-$node_(15) set X_ 15.696000 
-$node_(15) set Y_ 62.855000 
-$node_(16) set X_ 10.945000 
-$node_(16) set Y_ 73.211000 
-$node_(17) set X_ 36.079000 
-$node_(17) set Y_ 66.524000 
-$node_(18) set X_ 29.504000 
-$node_(18) set Y_ 96.494000 
-$node_(19) set X_ 26.692000 
-$node_(19) set Y_ 23.931000 
-$node_(20) set X_ 36.941000 
-$node_(20) set Y_ 84.652000 
-$node_(21) set X_ 35.430000 
-$node_(21) set Y_ 23.862000 
-$node_(22) set X_ 18.792000 
-$node_(22) set Y_ 6.856000 
-$node_(23) set X_ 53.282000 
-$node_(23) set Y_ 2.531000 
-$node_(24) set X_ 39.290000 
-$node_(24) set Y_ 23.355000 
-$node_(25) set X_ 19.781000 
-$node_(25) set Y_ 30.393000 
-$node_(26) set X_ 49.858000 
-$node_(26) set Y_ 51.529000 
-$node_(27) set X_ 37.633000 
-$node_(27) set Y_ 9.869000 
-$node_(28) set X_ 20.286000 
-$node_(28) set Y_ 30.569000 
-$node_(29) set X_ 6.888000 
-$node_(29) set Y_ 14.132000 
-$node_(30) set X_ 35.558000 
-$node_(30) set Y_ 30.078000 
-$node_(31) set X_ 21.984000 
-$node_(31) set Y_ 40.065000 
+$node_(0) set X_ 35.922000 
+$node_(0) set Y_ 2.965000 
+$node_(1) set X_ 17.210000 
+$node_(1) set Y_ 0.635000 
+$node_(2) set X_ 53.720000 
+$node_(2) set Y_ 43.466000 
+$node_(3) set X_ 43.487000 
+$node_(3) set Y_ 13.840000 
+$node_(4) set X_ 27.933000 
+$node_(4) set Y_ 37.504000 
+$node_(5) set X_ 52.509000 
+$node_(5) set Y_ 89.704000 
+$node_(6) set X_ 38.455000 
+$node_(6) set Y_ 41.412000 
+$node_(7) set X_ 18.704000 
+$node_(7) set Y_ 46.178000 
+$node_(8) set X_ 5.306000 
+$node_(8) set Y_ 24.264000 
+$node_(9) set X_ 30.555000 
+$node_(9) set Y_ 49.847000 
+$node_(10) set X_ 26.807000 
+$node_(10) set Y_ 31.652000 
+$node_(11) set X_ 6.053000 
+$node_(11) set Y_ 35.855000 
+$node_(12) set X_ 43.615000 
+$node_(12) set Y_ 47.174000 
+$node_(13) set X_ 26.551000 
+$node_(13) set Y_ 68.838000 
+$node_(14) set X_ 6.800000 
+$node_(14) set Y_ 50.843000 
+$node_(15) set X_ 41.540000 
+$node_(15) set Y_ 54.281000 
+$node_(16) set X_ 18.651000 
+$node_(16) set Y_ 72.966000 
+$node_(17) set X_ 13.900000 
+$node_(17) set Y_ 58.863000 
+$node_(18) set X_ 39.149000 
+$node_(18) set Y_ 58.181000 
+$node_(19) set X_ 25.891000 
+$node_(19) set Y_ 79.671000 
+$node_(20) set X_ 29.647000 
+$node_(20) set Y_ 22.317000 
+$node_(21) set X_ 43.743000 
+$node_(21) set Y_ 97.742000 
+$node_(22) set X_ 35.145000 
+$node_(22) set Y_ 13.816000 
+$node_(23) set X_ 21.747000 
+$node_(23) set Y_ 5.242000 
+$node_(24) set X_ 46.996000 
+$node_(24) set Y_ 21.668000 
+$node_(25) set X_ 43.094000 
+$node_(25) set Y_ 12.846000 
+$node_(26) set X_ 20.629000 
+$node_(26) set Y_ 20.759000 
+$node_(27) set X_ 56.515000 
+$node_(27) set Y_ 63.006000 
+$node_(28) set X_ 41.019000 
+$node_(28) set Y_ 1.526000 
+$node_(29) set X_ 23.241000 
+$node_(29) set Y_ 37.445000 
+$node_(30) set X_ 3.490000 
+$node_(30) set Y_ 12.518000 
+$node_(31) set X_ 38.944000 
+$node_(31) set Y_ 27.985000 
 
 
 
 
 PRINTING FOUNDINGS...
- 3 1 2 0
- 3 6 2 1
- 4 3 3 1
- 1 1 1 0
+ 2 1 2 0
+ 4 4 2 1
+ 5 4 2 1
+ 1 1 1 1
