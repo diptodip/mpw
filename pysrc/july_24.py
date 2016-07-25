@@ -15,14 +15,14 @@ k_values = []
 single_costs = []
 disjoint_costs = []
 
-for k in range(2):
+for k in range(14):
     print("k: " + str(k))
     k += 2
     ksingle_costs = []
     kdisjoint_costs = []
     kdisjoint_ratios = []
     i = 0
-    while i is not 10:
+    while i is not 50:
         try:
             print("iteration: " + str(i))
             system("../gensen")
