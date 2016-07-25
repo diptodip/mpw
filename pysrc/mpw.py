@@ -49,7 +49,6 @@ def residual_graph(G_, f):
         if f[(u, v, x)] > 0 and G.E.has_key((u, v, x)) and G.E[(u, v, x)][0] < 0:
             weight, capacity = G.E[(u, v, x)]
             if capacity == f[(u, v, x)]:
-                print("removed: " + str((u, v, x)))
                 G.E.pop((u, v, x), None)
             else:
                 G.E[(u, v, x)] = (weight, capacity - f[(u, v, x)])
@@ -108,8 +107,6 @@ def djikstra_distances(G, s, a):
 def augment_flow(G, f, P):
     for e in P:
         if f.has_key(e) and G.E[e][1] > 0:
-            if e[0].name is "5" and e[1].name is "1":
-                print("augmenting: " + str(e))
             f[e] += 1
         elif not f.has_key(e) and G.E[e][1] > 0:
             f[e] = 1
@@ -186,17 +183,12 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
     i = 1
     while i <= len(sorted_neighbors):
         print("iteration: " + str(i))
-        print("prev residual: " + str(residual_G.E))
         prev_a = positive_cost_transformation(residual_G, d)
-        #print("prev a: " + str(prev_a))
         add_neighbor(G_i, s, sorted_neighbors[i-1], neighbor_costs[sorted_neighbors[i-1]])
         P, d_i_prime = djikstra_path(residual_G, sorted_neighbors[i-1], s, prev_a, t)
-        print("path: " + str(P))
         for v in V:
             d_i_prime[v] = d_i_prime[v] + d[v] - d[sorted_neighbors[i-1]]
-        #print("d': " + str(d_i_prime))
         c = d_i_prime[s]
-        #print("cost: " + str(c))
         if c < 0:
             augment_flow(residual_G, f, P)
             f[(s, sorted_neighbors[i-1], 0)] = 1
@@ -204,12 +196,10 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
             residual_G = residual_graph(G_i, f)
             print("augmented flow")
         print("flow: " + str(f))
-        print("curr residual: " + str(residual_G.E))
         a_i_prime = positive_cost_transformation(residual_G, d_i_prime)
         d = djikstra_distances(residual_G, s, a_i_prime)
         for v in V:
             d[v] = d[v] + d_i_prime[v] - d_i_prime[s]
-        #print("d: " + str(d))
         print("opt: " + str(opt))
         print("current: " + str(neighbor_costs[sorted_neighbors[i-1]] + calc_flow_cost(f, merge_dicts(G_i.E, prev_residual_G.E, residual_G.E, G.E))))
         if neighbor_costs[sorted_neighbors[i-1]] + calc_flow_cost(f, merge_dicts(G_i.E, prev_residual_G.E, residual_G.E, G.E)) <= opt:
