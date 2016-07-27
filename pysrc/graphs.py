@@ -24,11 +24,43 @@ class Graph:
     def __init__(self, V, E):
         self.V = V
         self.E = E
-        #self.H = np.zeros((len(self.V), len(self.V)), dtype=np.int16)
-        #for i,j in itertools.product(range(len(self.V)), repeat=2):
-            #self.H[i, j] = self.E[i, j]
-            #if self.E[i, j] is not -1 and i is not j:
-                #self.arcs.add(Edge(self.V[i], self.V[j], self.E[i, j]))
+
+    def write_graph(self, filename):
+        with open(filename, 'w') as f:
+            f.write(str(len(self.V)) + "\n")
+            for v in self.V:
+                f.write(str(v.power) + "\n")
+            for v in self.V:
+                costs = ""
+                for n in self.V:
+                    if n in v.neighbors:
+                        costs += str(v.neighbors[n]) + " "
+                    else:
+                        costs += str(-1) + " "
+                costs = costs[:-1]
+                costs += "\n"
+                f.write(costs)
+
+    def read_graph(self, filename):
+        vertices = []
+        edges = {}
+        with open(filename) as f:
+            num_vertices = int(f.readline())
+            for i in range(num_vertices):
+                power = float(f.readline())
+                v = Vertex(i, power, {})
+                vertices.append(v)
+            for v in vertices:
+                line = f.readline()
+                strings = line.split()
+                costs = [float(s) for s in strings]
+                for i in range(len(costs)):
+                    cost = costs[i]
+                    if cost > -1:
+                        v.neighbors[i] = cost
+                        edges[(v, vertices[i], 0)] = (cost, 1)
+        self.V = vertices
+        self.E = edges
 
 def random_digraph(num_vertices):
     vertices = []

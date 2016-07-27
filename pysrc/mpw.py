@@ -87,6 +87,42 @@ def djikstra_path(G, s, t, a, sink):
     P = path
     return (P, d)
 
+def djikstra_path_modified(G, s, t, a, sink, M):
+    source = t
+    d = {v: 1e40 for v in G.V}
+    P = {v: [] for v in G.V}
+    P[s] = [s]
+    d[s] = 0
+    current = s
+    for e in G.E.keys():
+        if G.E[e][0] < 0 and G.E[e][0] > (0 - M):
+           a.pop(e, None)
+    for i in range(len(G.V)):
+        path = P[current]
+        cost = 1e40
+        choose = current
+        neighbors = [(v, x) for (u, v, x) in a.keys() if u is current]
+        for (neighbor, x) in neighbors:
+            if d[current] + a[(current, neighbor, x)] < d[neighbor]:
+                d[neighbor] = d[current] + a[(current, neighbor, x)]
+                P[neighbor] = path + [neighbor]
+                if d[neighbor] <= cost:
+                    cost = d[neighbor]
+                    choose = neighbor
+        current = choose
+    path = []
+    for i in range(len(P[t]) - 1):
+        u = P[t][i]
+        v = P[t][i+1]
+        if u is not sink or v is not source:
+            path.append((u, v, 0))
+        else:
+            path.append((u, v, 1))
+        if v is t:
+            break
+    P = path
+    return (P, d)
+
 def djikstra_distances(G, s, a):
     d = {v: 1e40 for v in G.V}
     d[s] = 0
@@ -106,9 +142,9 @@ def djikstra_distances(G, s, a):
 
 def augment_flow(G, f, P):
     for e in P:
-        if f.has_key(e) and G.E[e][1] > 0:
+        if f.has_key(e) and G.E.has_key(e) and G.E[e][1] > 0:
             f[e] += 1
-        elif not f.has_key(e) and G.E[e][1] > 0:
+        elif not f.has_key(e) and G.E.has_key(e) and G.E[e][1] > 0:
             f[e] = 1
 
 def calc_path_cost(P, E):
@@ -152,6 +188,29 @@ def merge_dicts(*dicts):
         out.update(d)
     return out
 
+def make_paths(OPT, s, t):
+    paths = {}
+    visited = set()
+    for (u, v, x) in OPT:
+        if u is s:
+            paths[v] = [u, v]
+            visited.add((u, v, x))
+    while len(visited) is not len(OPT):
+        for (u, v, x) in OPT:
+            for n in paths.keys():
+                if u in paths[n] and (u, v, x) not in visited:
+                    paths[n].append(v)
+                    visited.add((u, v, x))
+    return paths
+
+def contains_sink(P, t):
+    for (u, v, x) in P:
+        if u is t:
+            return True
+        if v is t:
+            return True
+    return False
+
 def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
     V = G.V
     E = G.E
@@ -183,21 +242,31 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
     residual_G = residual_graph(G_i, f)
     prev_residual_G = residual_G
     i = 1
+    updated = False
+    first = True
     while i <= len(sorted_neighbors):
-        #print("iteration: " + str(i))
         prev_a = positive_cost_transformation(residual_G, d)
         add_neighbor(G_i, s, sorted_neighbors[i-1], neighbor_costs[sorted_neighbors[i-1]])
-        P, d_i_prime = djikstra_path(residual_G, sorted_neighbors[i-1], s, prev_a, t)
+        P, d_i_prime = djikstra_path_modified(residual_G, sorted_neighbors[i-1], s, prev_a, t, M)
+        if len(P) == 0:
+            print(str(sorted_neighbors[i-1]) + str(sorted_neighbors[i-1].neighbors))
+        else:
+            print(str(sorted_neighbors[i-1]) + ": " + str(P))
         for v in V:
             d_i_prime[v] = d_i_prime[v] + d[v] - d[sorted_neighbors[i-1]]
-        c = d_i_prime[s]
+        c = calc_path_cost(P, residual_G.E)
         if c < 0:
+            updated = True
+            if updated and first:
+                print("first path: " + str(P))
+                first = False
             augment_flow(residual_G, f, P)
             f[(s, sorted_neighbors[i-1], 0)] = 1
             prev_residual_G = Graph(residual_G.V[:], dict(residual_G.E))
             residual_G = residual_graph(G_i, f)
             #print("augmented flow")
         #print("flow: " + str(f))
+        #print("current residual: " + str(residual_G.E))
         a_i_prime = positive_cost_transformation(residual_G, d_i_prime)
         d = djikstra_distances(residual_G, s, a_i_prime)
         for v in V:
@@ -212,9 +281,34 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
                     costs[e] = G.E[e][0]
         i += 1
     cost = 0
-    for e in OPT:
+    """
+    source_count = 0
+    sink_count = 0
+    for e in list(OPT):
+        if e[0] is s:
+            source_count += 1
+        if e[1] is t:
+            sink_count += 1
+    print("source count: " + str(source_count))
+    print("sink count: " + str(sink_count))
+    if sink_count != k:
+        OPT = set()
+    if len(OPT) == 0:
+        cost = 1e40
+    """
+    for e in list(OPT):
         cost += costs[e]
+    #paths = make_paths(OPT, s, t)
+    #print(paths)
     return OPT, cost
+
+def three_phase_broadcast(G, source_index):
+    s = G.V[source_index]
+    H = {}
+    for e in G.E:
+        if G.E[e][0] == 0:
+            H[e] = G.E[e]
+    i = 0
 
 def write_mku(G, source_index, sink_index, filename):
     with open(filename, 'w') as f:

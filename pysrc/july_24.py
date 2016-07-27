@@ -69,12 +69,14 @@ for k in range(14):
             G = Graph(nodes, edges)
             P, p = minimum_energy_single_path(G, 0, 31)
             OPT, opt = minimum_energy_disjoint_paths(G, 0, 31, k)
+            print(OPT)
             ksingle_costs.append(p)
             kdisjoint_costs.append(opt)
             kdisjoint_ratios.append(opt / p)
             i += 1
         except:
             continue
+    """
     ksingle_average = np.average(ksingle_costs)
     kdisjoint_average = np.average(kdisjoint_costs)
     single_costs.append(ksingle_average)
@@ -98,3 +100,4 @@ disjoint_plot, = plt.plot(k_values, disjoint_costs, 'rx', label='k-disjoint path
 plt.legend(handles=[single_plot, disjoint_plot])
 plt.savefig("july_24_average_graph.png", format="png", dpi=300)
 plt.clf()
+"""

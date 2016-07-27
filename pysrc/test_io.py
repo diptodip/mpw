@@ -43,5 +43,12 @@ edges[(v1, v5, 0)] = (50, 1)
 
 G = Graph(vertices, edges)
 
+G.write_graph("test.grf")
+
+G_ = Graph([], {})
+G_.read_graph("test.grf")
+print(G_.V)
+print(G_.E)
+
 OPT = minimum_energy_disjoint_paths(G, 0, 4, 2)
 print(OPT)
