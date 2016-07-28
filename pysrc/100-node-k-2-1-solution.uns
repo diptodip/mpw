@@ -1,0 +1,6 @@
+single cost solution
+[V0, V1, V52, V40, V89, V95, V99]
+1309.267772
+disjoint paths solution
+{V77: [V0, V77, V77', V34, V34', V74, V74', V61, V61', V66, V66', V49, V49', V99], V99: [V0, V99]}
+1605.407444

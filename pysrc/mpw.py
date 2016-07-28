@@ -4,7 +4,7 @@ def minimum_energy_single_path(G, source_index, sink_index):
     s = G.V[source_index]
     t = G.V[sink_index]
     paths, costs = djikstra(G, source_index)
-    return (paths[t], costs[t])
+    return paths[t], costs[t]
 
 def add_neighbor(G, s, s_i, cost):
     G.E[(s, s_i, 0)] = (cost, 1)
@@ -295,7 +295,6 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
                     OPT.add(e)
                     costs[e] = G.E[e][0]
         i += 1
-    """
     source_count = 0
     sink_count = 0
     for e in list(OPT):
@@ -307,7 +306,6 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
         OPT = set()
     if len(OPT) == 0:
         cost = 1e40
-    """
     paths = make_paths(OPT, s, t)
     cost = calc_cost(paths, G.E)
     return paths, OPT, cost
