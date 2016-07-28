@@ -81,10 +81,10 @@ while not done:
                     edges[(node, neighbor, 0)] = (cost, 1)
     
     G = Graph(nodes, edges)
-    paths, OPT, opt = minimum_energy_disjoint_paths(G, 0, 31, 3)
+    OPT, opt = minimum_energy_disjoint_paths(G, 0, 31, 5)
 
     if len(OPT) > 0:
-        print(paths)
+        print(OPT)
         """
         plt.figure()
         graph_plot, = plt.plot(x_coordinates, y_coordinates, 'ro', label='')

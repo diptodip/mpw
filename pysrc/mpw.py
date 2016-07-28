@@ -211,6 +211,31 @@ def contains_sink(P, t):
             return True
     return False
 
+def calc_cost(paths, E):
+    if len(paths.keys()) > 0:
+        cost = 0
+        max_neighbor = paths.keys()[0]
+        max_neighbor_cost = 0
+        for n in paths.keys():
+            neighbor_edge = (paths[n][0], paths[n][1], 0)
+            cost = E[neighbor_edge][0]
+            if cost > max_neighbor_cost:
+                max_neighbor = n
+                max_neighbor_cost = cost
+        P = paths[max_neighbor]
+        edges = []
+        cost = 0
+        for i in range(len(P) - 1):
+            v1 = P[i]
+            v2 = P[i+1]
+            e = (v1, v2, 0)
+            edges.append(e)
+        for e in edges:
+            cost += E[e][0]
+        return cost
+    else:
+        return 1e40
+
 def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
     V = G.V
     E = G.E
@@ -242,24 +267,14 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
     residual_G = residual_graph(G_i, f)
     prev_residual_G = residual_G
     i = 1
-    updated = False
-    first = True
     while i <= len(sorted_neighbors):
         prev_a = positive_cost_transformation(residual_G, d)
         add_neighbor(G_i, s, sorted_neighbors[i-1], neighbor_costs[sorted_neighbors[i-1]])
         P, d_i_prime = djikstra_path_modified(residual_G, sorted_neighbors[i-1], s, prev_a, t, M)
-        if len(P) == 0:
-            print(str(sorted_neighbors[i-1]) + str(sorted_neighbors[i-1].neighbors))
-        else:
-            print(str(sorted_neighbors[i-1]) + ": " + str(P))
         for v in V:
             d_i_prime[v] = d_i_prime[v] + d[v] - d[sorted_neighbors[i-1]]
         c = calc_path_cost(P, residual_G.E)
         if c < 0:
-            updated = True
-            if updated and first:
-                print("first path: " + str(P))
-                first = False
             augment_flow(residual_G, f, P)
             f[(s, sorted_neighbors[i-1], 0)] = 1
             prev_residual_G = Graph(residual_G.V[:], dict(residual_G.E))
@@ -280,7 +295,6 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
                     OPT.add(e)
                     costs[e] = G.E[e][0]
         i += 1
-    cost = 0
     """
     source_count = 0
     sink_count = 0
@@ -289,18 +303,14 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
             source_count += 1
         if e[1] is t:
             sink_count += 1
-    print("source count: " + str(source_count))
-    print("sink count: " + str(sink_count))
     if sink_count != k:
         OPT = set()
     if len(OPT) == 0:
         cost = 1e40
     """
-    for e in list(OPT):
-        cost += costs[e]
-    #paths = make_paths(OPT, s, t)
-    #print(paths)
-    return OPT, cost
+    paths = make_paths(OPT, s, t)
+    cost = calc_cost(paths, G.E)
+    return paths, OPT, cost
 
 def three_phase_broadcast(G, source_index):
     s = G.V[source_index]

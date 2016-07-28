@@ -24,7 +24,7 @@ set val(ifq)            Queue/DropTail/PriQueue    ;# interface queue type
 set val(ll)             LL                         ;# link layer type
 set val(ant)            Antenna/OmniAntenna        ;# antenna model
 set val(ifqlen)         50                         ;# max packet in ifq
-set val(nn)             32                          ;# number of mobilenodes
+set val(nn)             81                          ;# number of mobilenodes
 set val(rp)             AODV                       ;# choose your routing protocol
 set val(x)	        60
 set val(y)	        100
@@ -45,7 +45,7 @@ $topo load_flatgrid $val(x) $val(y)
 create-god $val(nn)
 set chan_1_ [new $val(chan)]
 # configure the nodes
-$ns node-config 			-adhocRouting $val(rp) 			-llType $val(ll) 			-macType $val(mac) 			-ifqType $val(ifq) 			-ifqLen $val(ifqlen)			-antType $val(ant) 			-propType $val(prop) 			-phyType $val(netif)  			-topoInstance $topo  			-agentTrace ON 			-routerTrace ON  			-macTrace OFF  			-movementTrace ON  			-energyModel $val(engmodel) 			-initialEnergy 40.000000 			-idlePower 0.000100 			-channel $chan_1_
+$ns node-config 			-adhocRouting $val(rp) 			-llType $val(ll) 			-macType $val(mac) 			-ifqType $val(ifq) 			-ifqLen $val(ifqlen)			-antType $val(ant) 			-propType $val(prop) 			-phyType $val(netif)  			-topoInstance $topo  			-agentTrace ON 			-routerTrace ON  			-macTrace OFF  			-movementTrace ON  			-energyModel $val(engmodel) 			-initialEnergy 10.000000 			-idlePower 0.000100 			-channel $chan_1_
        set node_(0) [$ns node]
 $ns node-config -initialEnergy 10.000000 
        set node_(1) [$ns node]
@@ -53,7 +53,7 @@ $ns node-config -initialEnergy 10.000000
 $ns node-config -initialEnergy 10.000000 
        set node_(2) [$ns node]
 
-$ns node-config -initialEnergy 10.000000 
+$ns node-config -initialEnergy 20.000000 
        set node_(3) [$ns node]
 
 $ns node-config -initialEnergy 20.000000 
@@ -65,7 +65,7 @@ $ns node-config -initialEnergy 20.000000
 $ns node-config -initialEnergy 20.000000 
        set node_(6) [$ns node]
 
-$ns node-config -initialEnergy 20.000000 
+$ns node-config -initialEnergy 30.000000 
        set node_(7) [$ns node]
 
 $ns node-config -initialEnergy 30.000000 
@@ -74,7 +74,7 @@ $ns node-config -initialEnergy 30.000000
 $ns node-config -initialEnergy 30.000000 
        set node_(9) [$ns node]
 
-$ns node-config -initialEnergy 30.000000 
+$ns node-config -initialEnergy 40.000000 
        set node_(10) [$ns node]
 
 $ns node-config -initialEnergy 40.000000 
@@ -86,7 +86,7 @@ $ns node-config -initialEnergy 40.000000
 $ns node-config -initialEnergy 40.000000 
        set node_(13) [$ns node]
 
-$ns node-config -initialEnergy 40.000000 
+$ns node-config -initialEnergy 10.000000 
        set node_(14) [$ns node]
 
 $ns node-config -initialEnergy 10.000000 
@@ -98,7 +98,7 @@ $ns node-config -initialEnergy 10.000000
 $ns node-config -initialEnergy 10.000000 
        set node_(17) [$ns node]
 
-$ns node-config -initialEnergy 10.000000 
+$ns node-config -initialEnergy 20.000000 
        set node_(18) [$ns node]
 
 $ns node-config -initialEnergy 20.000000 
@@ -107,7 +107,7 @@ $ns node-config -initialEnergy 20.000000
 $ns node-config -initialEnergy 20.000000 
        set node_(20) [$ns node]
 
-$ns node-config -initialEnergy 20.000000 
+$ns node-config -initialEnergy 30.000000 
        set node_(21) [$ns node]
 
 $ns node-config -initialEnergy 30.000000 
@@ -119,7 +119,7 @@ $ns node-config -initialEnergy 30.000000
 $ns node-config -initialEnergy 30.000000 
        set node_(24) [$ns node]
 
-$ns node-config -initialEnergy 30.000000 
+$ns node-config -initialEnergy 40.000000 
        set node_(25) [$ns node]
 
 $ns node-config -initialEnergy 40.000000 
@@ -128,7 +128,7 @@ $ns node-config -initialEnergy 40.000000
 $ns node-config -initialEnergy 40.000000 
        set node_(27) [$ns node]
 
-$ns node-config -initialEnergy 40.000000 
+$ns node-config -initialEnergy 10.000000 
        set node_(28) [$ns node]
 
 $ns node-config -initialEnergy 10.000000 
@@ -139,6 +139,153 @@ $ns node-config -initialEnergy 10.000000
 
 $ns node-config -initialEnergy 10.000000 
        set node_(31) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(32) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(33) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(34) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(35) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(36) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(37) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(38) [$ns node]
+
+$ns node-config -initialEnergy 40.000000 
+       set node_(39) [$ns node]
+
+$ns node-config -initialEnergy 40.000000 
+       set node_(40) [$ns node]
+
+$ns node-config -initialEnergy 40.000000 
+       set node_(41) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(42) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(43) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(44) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(45) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(46) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(47) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(48) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(49) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(50) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(51) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(52) [$ns node]
+
+$ns node-config -initialEnergy 40.000000 
+       set node_(53) [$ns node]
+
+$ns node-config -initialEnergy 40.000000 
+       set node_(54) [$ns node]
+
+$ns node-config -initialEnergy 40.000000 
+       set node_(55) [$ns node]
+
+$ns node-config -initialEnergy 40.000000 
+       set node_(56) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(57) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(58) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(59) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(60) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(61) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(62) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(63) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(64) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(65) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(66) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(67) [$ns node]
+
+$ns node-config -initialEnergy 40.000000 
+       set node_(68) [$ns node]
+
+$ns node-config -initialEnergy 40.000000 
+       set node_(69) [$ns node]
+
+$ns node-config -initialEnergy 40.000000 
+       set node_(70) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(71) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(72) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(73) [$ns node]
+
+$ns node-config -initialEnergy 10.000000 
+       set node_(74) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(75) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(76) [$ns node]
+
+$ns node-config -initialEnergy 20.000000 
+       set node_(77) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(78) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(79) [$ns node]
+
+$ns node-config -initialEnergy 30.000000 
+       set node_(80) [$ns node]
 
 source ./random_topology.tcl
 
