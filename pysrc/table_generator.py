@@ -11,17 +11,17 @@ plt.style.use("ggplot")
 
 prefix = "100-node-k-{0}-{1}"
 
-k_values = [2]
+k_values = [2, 3, 4, 5, 6]
 table = "\\begin{tabular}{| c | c | c | c | c | c |}\n"
 table += "\hline\n"
-table += "k & average single path value & single path standard deviation & average disjoint paths value & disjoint paths standard deviation & average disjoint paths increase factor \\ \hline\n"
+table += "k & average single path value & single path standard deviation & average disjoint paths value & disjoint paths standard deviation & average disjoint paths increase factor \\\\ \hline\n"
 for k in k_values:
     single_costs = []
     disjoint_costs = []
     
     print("k: " + str(k))
 
-    while len(single_costs) is not 2 and len(disjoint_costs) is not 2:
+    while len(single_costs) is not 50 and len(disjoint_costs) is not 50:
         print("current iteration: " + str(len(single_costs)))
         system("../gensen -n 100")
         nodes = []

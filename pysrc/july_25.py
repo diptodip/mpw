@@ -19,7 +19,7 @@ OPT = set()
 done = False
 #while len(OPT) is 0:
 while not done:
-    system("../gensen -n 81")
+    system("../gensen -n 10")
     nodes = []
     edges = {}
     locations = {}
@@ -27,7 +27,7 @@ while not done:
     y_coordinates = []
     with open("random_topology.tcl") as f:
         n = 0
-        while len(nodes) is not 81:
+        while len(nodes) is not 10:
             line = f.readline()
             if "node_" in line:
                 xindex = line.rfind("_")
@@ -46,7 +46,7 @@ while not done:
     #print(nodes)
     #print(locations)
     s = nodes[0]
-    t = nodes[31]
+    t = nodes[9]
     #max_neighbors = 7
     """
     for node in nodes:
@@ -81,7 +81,9 @@ while not done:
                     edges[(node, neighbor, 0)] = (cost, 1)
     
     G = Graph(nodes, edges)
-    paths, OPT, opt = minimum_energy_disjoint_paths(G, 0, 31, 3)
+    G.write_graph("test_graph.grf")
+    print(edges)
+    paths, OPT, opt = minimum_energy_disjoint_paths(G, 0, 9, 3)
 
     if len(OPT) > 0:
         print(paths)
