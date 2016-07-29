@@ -1,4 +1,4 @@
-# mpw
+# Minimum Power Wireless Network Routing Algorithms
 
 **Note:** This project is over and incomplete.
 
