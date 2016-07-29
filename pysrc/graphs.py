@@ -54,10 +54,11 @@ class Graph:
                 line = f.readline()
                 strings = line.split()
                 costs = [float(s) for s in strings]
+                print(costs)
                 for i in range(len(costs)):
                     cost = costs[i]
                     if cost > -1:
-                        v.neighbors[i] = cost
+                        v.neighbors[vertices[i]] = cost
                         edges[(v, vertices[i], 0)] = (cost, 1)
         self.V = vertices
         self.E = edges

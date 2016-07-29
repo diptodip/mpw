@@ -7,9 +7,9 @@ def minimum_energy_single_path(G, source_index, sink_index):
     return paths[t], costs[t]
 
 def add_neighbor(G, s, s_i, cost):
-    G.E[(s, s_i, 0)] = (cost, 1)
-    G.E[(s_i, s, 0)] = (0 - cost, 0)
-    s.neighbors[s_i] = cost
+    G.E[(s, s_i, 0)] = (0, 1)
+    #G.E[(s_i, s, 0)] = (0 - cost, 0)
+    s.neighbors[s_i] = 0
 
 def node_disjoint_transformation(G_, s, t):
     V = G_.V[:]
@@ -211,7 +211,7 @@ def contains_sink(P, t):
             return True
     return False
 
-def calc_cost(paths, E):
+def calc_cost(paths, OPT, E, s):
     if len(paths.keys()) > 0:
         cost = 0
         max_neighbor = paths.keys()[0]
@@ -225,6 +225,7 @@ def calc_cost(paths, E):
         P = paths[max_neighbor]
         edges = []
         cost = 0
+        """
         for i in range(len(P) - 1):
             v1 = P[i]
             v2 = P[i+1]
@@ -232,6 +233,12 @@ def calc_cost(paths, E):
             edges.append(e)
         for e in edges:
             cost += E[e][0]
+        """
+        max_source_edge = (s, max_neighbor, 0)
+        cost += E[max_source_edge][0]
+        for e in OPT:
+            if e[0] is not s:
+                cost += E[e][0]
         return cost
     else:
         return 1e40
@@ -250,7 +257,9 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
         if E[e][0] > max_cost:
             max_cost = E[e][0]
     M = len(V) * max_cost
+    print("M: " + str(M))
     sorted_neighbors = sort_neighbors(G, s)
+    print(sorted_neighbors)
     G = node_disjoint_transformation(G, s, t)
     f = {}
     opt = 1e40
@@ -268,11 +277,19 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
     prev_residual_G = residual_G
     i = 1
     while i <= len(sorted_neighbors):
+        print("iteration: " + str(i))
         prev_a = positive_cost_transformation(residual_G, d)
+        print(d)
+        print(prev_a)
         add_neighbor(G_i, s, sorted_neighbors[i-1], neighbor_costs[sorted_neighbors[i-1]])
-        P, d_i_prime = djikstra_path_modified(residual_G, sorted_neighbors[i-1], s, prev_a, t, M)
+        P, d_i_prime = djikstra_path(residual_G, sorted_neighbors[i-1], s, prev_a, t)
+        print(P)
+        print("d_i_prime before recompute")
+        print(d_i_prime)
         for v in V:
             d_i_prime[v] = d_i_prime[v] + d[v] - d[sorted_neighbors[i-1]]
+        print("d_i_prime")
+        print(d_i_prime)
         c = calc_path_cost(P, residual_G.E)
         if c < 0:
             augment_flow(residual_G, f, P)
@@ -280,9 +297,14 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
             prev_residual_G = Graph(residual_G.V[:], dict(residual_G.E))
             residual_G = residual_graph(G_i, f)
             #print("augmented flow")
-        #print("flow: " + str(f))
+        print("flow:")
+        for e in f.keys():
+            if f[e] > 0:
+                print(str(e) + ": " + str(f[e]))
         #print("current residual: " + str(residual_G.E))
         a_i_prime = positive_cost_transformation(residual_G, d_i_prime)
+        print("a_i_prime")
+        print(a_i_prime)
         d = djikstra_distances(residual_G, s, a_i_prime)
         for v in V:
             d[v] = d[v] + d_i_prime[v] - d_i_prime[s]
@@ -295,6 +317,7 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
                     OPT.add(e)
                     costs[e] = G.E[e][0]
         i += 1
+    """
     source_count = 0
     sink_count = 0
     for e in list(OPT):
@@ -306,8 +329,9 @@ def minimum_energy_disjoint_paths(G, source_index, sink_index, k):
         OPT = set()
     if len(OPT) == 0:
         cost = 1e40
+    """
     paths = make_paths(OPT, s, t)
-    cost = calc_cost(paths, G.E)
+    cost = calc_cost(paths, OPT, G.E, s)
     return paths, OPT, cost
 
 def three_phase_broadcast(G, source_index):

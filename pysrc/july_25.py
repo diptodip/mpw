@@ -79,14 +79,22 @@ while not done:
                     cost = cost**2
                     node.neighbors[neighbor] = cost
                     edges[(node, neighbor, 0)] = (cost, 1)
-    
+    """
+    with open("test_graph_1.loc", 'w') as f:
+        for v in nodes:
+            x, y = locations[v]
+            f.write(str(x) + " " + str(y) + "\n")
+    """
+
     G = Graph(nodes, edges)
-    G.write_graph("test_graph.grf")
-    print(edges)
-    paths, OPT, opt = minimum_energy_disjoint_paths(G, 0, 9, 3)
+    #G.write_graph("test_graph_1.grf")
+    G.read_graph("test_graph_2.grf")
+    paths, OPT, opt = minimum_energy_disjoint_paths(G, 0, 9, 2)
 
     if len(OPT) > 0:
+        print(OPT)
         print(paths)
+        print(opt)
         """
         plt.figure()
         graph_plot, = plt.plot(x_coordinates, y_coordinates, 'ro', label='')
